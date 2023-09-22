@@ -1,19 +1,21 @@
 package bank;
 
 public class Customer {
-  
+
   private int id;
   private String name;
   private String username;
   private String password;
   private int accoundId;
+  private boolean authenticated;
 
-  public Customer(int it, String name, String username, String password, int accoundId){
+  public Customer(int it, String name, String username, String password, int accoundId) {
     setId(id);
     setName(name);
     setUsername(username);
     setPassword(password);
     setAccoundId(accoundId);
+    setAuthenticated(false);
   }
 
   public int getId() {
@@ -54,6 +56,14 @@ public class Customer {
 
   public void setAccoundId(int accoundId) {
     this.accoundId = accoundId;
+  }
+
+  public boolean isAuthenticated() {
+    return this.authenticated;
+  }
+
+  public void setAuthenticated(boolean authenticated) {
+    this.authenticated = authenticated;
   }
 
 }
