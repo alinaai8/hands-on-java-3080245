@@ -51,10 +51,32 @@ public class DataSource {
 
   }
 
-  public static void main(String[] args) {
-    Customer customer = getCustomer("twest8o@friendfeed.com");
+  public static Account getAccount(int accountId){
 
-    System.out.println(customer.getName());
+    String sql = "select * from accounts where id = ?";
+    Account account = null;
+    try(Connection connection = connect();
+      PreparedStatement statement = connection.prepareStatement(sql)){
+        statement.setInt(1, accountId);
+
+        try(ResultSet resultSet = statement.executeQuery()){
+          account = new Account(
+            resultSet.getInt("id"), 
+            resultSet.getString("type"), 
+            resultSet.getDouble("balance"));
+        } 
+      }catch(SQLException e){
+          e.printStackTrace();
+      }
+        
+      return account;
+  }
+  public static void main(String[] args) {
+
+    Customer customer = getCustomer("twest8o@friendfeed.com");
+    Account account = getAccount(customer.getAccoundId());
+    System.out.println(account.getBalance());
+
   }
 
 }
