@@ -51,32 +51,38 @@ public class DataSource {
 
   }
 
-  public static Account getAccount(int accountId){
+  public static Account getAccount(int accountId) {
 
     String sql = "select * from accounts where id = ?";
     Account account = null;
-    try(Connection connection = connect();
-      PreparedStatement statement = connection.prepareStatement(sql)){
-        statement.setInt(1, accountId);
+    try (Connection connection = connect();
+        PreparedStatement statement = connection.prepareStatement(sql)) {
+      statement.setInt(1, accountId);
 
-        try(ResultSet resultSet = statement.executeQuery()){
-          account = new Account(
-            resultSet.getInt("id"), 
-            resultSet.getString("type"), 
+      try (ResultSet resultSet = statement.executeQuery()) {
+        account = new Account(
+            resultSet.getInt("id"),
+            resultSet.getString("type"),
             resultSet.getDouble("balance"));
-        } 
-      }catch(SQLException e){
-          e.printStackTrace();
       }
-        
-      return account;
-  }
-  public static void main(String[] args) {
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
 
-    Customer customer = getCustomer("twest8o@friendfeed.com");
-    Account account = getAccount(customer.getAccoundId());
-    System.out.println(account.getBalance());
-
+    return account;
   }
 
+  public static void updateAccountBalance(int accoundId, double balance) {
+    String sql = "update account set balance = ? where id = ?";
+    try (
+        Connection connection = connect();
+        PreparedStatement statement = connection.prepareStatement(sql);) {
+      statement.setDouble(1, balance);
+      statement.setInt(2, accoundId);
+
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
 }

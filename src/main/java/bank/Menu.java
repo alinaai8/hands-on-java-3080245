@@ -65,7 +65,7 @@ public class Menu {
             account.deposit(amount);
           } catch (AmountException e) {
             System.out.println(e.getMessage());
-            System.out.println("Please try again!");
+            System.out.println("Please try again!");System.out.println("====================================================");
           }
           break;
         case 2:
